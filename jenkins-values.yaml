@@ -1,0 +1,14 @@
+controller:
+  additionalPlugins:
+    - gradle:2.13.1
+    - github:1.40.0
+    - pipeline-stage-view:2.34
+    - sonar:2.17.3
+agent:
+  resources:
+    requests:
+      cpu: 1
+      memory: 2048Mi
+    limits:
+      cpu: 2
+      memory: 4096Mi
