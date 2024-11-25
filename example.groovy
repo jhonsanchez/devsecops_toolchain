@@ -1,5 +1,41 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: jnpl
+    image: jenkins
+    resources:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+    limits:
+        cpu: 1000m
+        memory: 2048Mi
+    command:
+    - cat
+    tty: true
+  - name: aws-cli
+    image: public.ecr.aws/bitnami/aws-cli:2.4.25
+    resources:
+      requests:
+        cpu: 200m
+        memory: 400Mi
+      limits:
+        cpu: 1024m
+        memory: 2048Mi
+    command:
+    - cat
+    tty: true
+  securityContext:
+    runAsUser: 0
+    fsGroup: 0
+'''
+        }
+    }
     stages {
         stage('Checkout') {
             steps {

@@ -3,6 +3,7 @@ minikube config set cpus 12
 # Jenkins
 ```bash
 kubectl get -n jenkins secret jenkins -o json | jq '.data | map_values(@base64d)'
+kubectl port-forward -n jenkins statefulset/jenkins 8080:8080
 ```
 
 # Sonar
@@ -20,3 +21,10 @@ kubectl port-forward -n sonarqube statefulset/sonarqube-sonarqube 9000:9000
 ```bash
 kubectl exec -n nexus -it deployment/nexus -- sh
 ```
+
+# Dependency check
+
+# Detect Secrets
+
+Configure based on this URL: https://plugins.jenkins.io/shiningpanda/
+- configure Python installations, step in ```Manage Jenkins > Global Tool Configuration.``` Then look for the Python section.
