@@ -10,11 +10,11 @@ spec:
     image: python
     resources:
       requests:
-        cpu: 200m
-        memory: 400Mi
+        cpu: 2000m
+        memory: 4000Mi
       limits:
         cpu: 4000m
-        memory: 6000Mi
+        memory: 10240Mi
     command:
     - cat
     tty: true
@@ -24,48 +24,63 @@ spec:
 '''
         }
     }
+    environment {
+        GRADLE_OPTS='-Xmx3g -Xms2g -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=1g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8'
+    }
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'test', url: 'https://github.com/jhonsanchez/petclinic-bg-example.git'
+                git branch: 'main', url: 'https://github.com/jhonsanchez/color-teller.git'
             }
         }
         stage('Detect secrets'){
             steps {
                 container('python') {
-                    try {
-                        // Run detect-secrets scan
-                        sh 'pip install detect-secrets'
-                        sh 'detect-secrets scan > detectSecretsResults.json'
+                    script {
+                        try {
+                            // Run detect-secrets scan
+                            sh 'pip install detect-secrets'
+                            sh 'detect-secrets scan > detectSecretsResults.json'
 
-                        // Archive the scan results
-                        archiveArtifacts artifacts: 'detectSecretsResults.json', allowEmptyArchive: true
+                            // Archive the scan results
+                            archiveArtifacts artifacts: 'detectSecretsResults.json', allowEmptyArchive: true
 
-                        // Read and print results to console
-                        def detectSecretsResults = readFile('detectSecretsResults.json')
-                        echo "Detect Secrets Scan Results: ${detectSecretsResults}"
-                    } catch (Exception e) {
-                        echo "Error running detect-secrets: ${e.getMessage()}"
+                            // Read and print results to console
+                            def detectSecretsResults = readFile('detectSecretsResults.json')
+                            echo "Detect Secrets Scan Results: ${detectSecretsResults}"
+                        } catch (Exception e) {
+                            echo "Error running detect-secrets: ${e.getMessage()}"
+                        }
                     }
+
                 }
             }
 
         }
         stage('Build') {
+            tools {
+                jdk "jdk21"
+            }
             steps {
                 script {
-                    sh './gradlew clean build -x test --no-daemon' //run a gradle task
+                    sh './gradlew clean build' //run a gradle task
                 }
             }
         }
         stage('Test') {
+            tools {
+                jdk "jdk21"
+            }
             steps {
                 script {
-                    sh './gradlew clean test --no-daemon' //run a gradle task
+                    sh './gradlew test'
                 }
             }
         }
         stage("build & SonarQube analysis") {
+            tools {
+                jdk "jdk21"
+            }
             environment {
                 SONAR_HOST_URL = 'http://sonarqube-sonarqube.sonarqube:9000'
                 SONAR_TOKEN = credentials('sonarqube-token')

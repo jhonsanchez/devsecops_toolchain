@@ -8,6 +8,7 @@ minikube start --cpus 16 --memory 16384
 kubectl get -n jenkins secret jenkins -o json | jq '.data | map_values(@base64d)'
 kubectl port-forward -n jenkins statefulset/jenkins 8080:8080
 ```
+- Configure jdk 21
 
 # Sonar
 ```bash
