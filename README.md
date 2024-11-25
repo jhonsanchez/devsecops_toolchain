@@ -1,4 +1,7 @@
-minikube config set cpus 12
+start minikube
+```bash
+minikube start --cpus 16 --memory 16384
+```
 
 # Jenkins
 ```bash

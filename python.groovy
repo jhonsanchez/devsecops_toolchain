@@ -5,19 +5,7 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
-  containers:
-  - name: jnpl
-    image: jenkins/inbound-agent:3273.v4cfe589b_fd83-1
-    resources:
-      requests:
-        cpu: 500m
-        memory: 512Mi
-    limits:
-        cpu: 1000m
-        memory: 2048Mi
-    command:
-    - cat
-    tty: true
+  containers:  
   - name: python
     image: python
     resources:

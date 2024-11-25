@@ -5,28 +5,16 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
-  containers:
-  - name: jnpl
-    image: jenkins
-    resources:
-      requests:
-        cpu: 500m
-        memory: 512Mi
-    limits:
-        cpu: 1000m
-        memory: 2048Mi
-    command:
-    - cat
-    tty: true
-  - name: aws-cli
-    image: public.ecr.aws/bitnami/aws-cli:2.4.25
+  containers:  
+  - name: python
+    image: python
     resources:
       requests:
         cpu: 200m
         memory: 400Mi
       limits:
-        cpu: 1024m
-        memory: 2048Mi
+        cpu: 4000m
+        memory: 6000Mi
     command:
     - cat
     tty: true
@@ -41,6 +29,27 @@ spec:
             steps {
                 git branch: 'test', url: 'https://github.com/jhonsanchez/petclinic-bg-example.git'
             }
+        }
+        stage('Detect secrets'){
+            steps {
+                container('python') {
+                    try {
+                        // Run detect-secrets scan
+                        sh 'pip install detect-secrets'
+                        sh 'detect-secrets scan > detectSecretsResults.json'
+
+                        // Archive the scan results
+                        archiveArtifacts artifacts: 'detectSecretsResults.json', allowEmptyArchive: true
+
+                        // Read and print results to console
+                        def detectSecretsResults = readFile('detectSecretsResults.json')
+                        echo "Detect Secrets Scan Results: ${detectSecretsResults}"
+                    } catch (Exception e) {
+                        echo "Error running detect-secrets: ${e.getMessage()}"
+                    }
+                }
+            }
+
         }
         stage('Build') {
             steps {
