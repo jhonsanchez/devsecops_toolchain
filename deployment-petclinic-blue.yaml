@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: petclinic
+      env: blue
+  template:
+    metadata:
+      labels:
+        app: petclinic
+        env: blue
+    spec:
+      containers:
+        - name: petclinic
+          image: spring-petclinic:3.3.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080

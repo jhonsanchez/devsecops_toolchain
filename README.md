@@ -1,5 +1,7 @@
 start minikube
 ```bash
+set varname= https_proxy
+set varname= http_proxy
 minikube start --cpus 16 --memory 16384
 ```
 
