@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    sleep(2000)
+                    sleep(2)
                     echo 'checking out code...'
                 }
             }
@@ -12,7 +12,7 @@ pipeline {
         stage('build') {
             steps {
                 script {
-                    sleep(3000)
+                    sleep(3)
                     echo 'building...'
                 }
             }
@@ -20,7 +20,7 @@ pipeline {
         stage('unit test') {
             steps {
                 script {
-                    sleep(1000)
+                    sleep(1)
                     echo 'unit testing with code coverage...'
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
         stage('integration test') {
             steps {
                 script {
-                    sleep(4000)
+                    sleep(4)
                     echo 'integration testing...'
                 }
             }
@@ -36,7 +36,7 @@ pipeline {
         stage('Detect secrets') {
             steps {
                 script {
-                    sleep(3000)
+                    sleep(3)
                     echo 'Detecting secrets...'
                 }
             }
@@ -44,7 +44,7 @@ pipeline {
         stage('Sonarqube analysis') {
             steps {
                 script {
-                    sleep(6000)
+                    sleep(6)
                     echo 'Running sonarqube analysis...'
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
         stage('Sast scan') {
             steps {
                 script {
-                    sleep(7000)
+                    sleep(7)
                     echo 'Running SAST Scan' //run a gradle task
                 }
             }
@@ -60,7 +60,7 @@ pipeline {
         stage('Nexus') {
             steps {
                 script {
-                    sleep(1000)
+                    sleep(1)
                     echo 'Storing artifact on Nexus' //run a gradle task
                 }
             }
@@ -68,7 +68,7 @@ pipeline {
         stage('Deploy to dev') {
             steps {
                 script {
-                    sleep(4000)
+                    sleep(4)
                     echo 'Deploy to dev'
                 }
             }
@@ -92,7 +92,7 @@ pipeline {
         stage("Deploy to prod") {
             steps {
                 script {
-                    sleep(4000)
+                    sleep(4)
                     echo 'deploy to prod'
                 }
             }

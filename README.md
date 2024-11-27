@@ -2,7 +2,7 @@ start minikube
 ```bash
 set varname= https_proxy
 set varname= http_proxy
-minikube start --cpus 16 --memory 16384
+#minikube start --cpus 16 --memory 16384
 ```
 
 # Jenkins
@@ -10,7 +10,7 @@ minikube start --cpus 16 --memory 16384
 kubectl get -n jenkins secret jenkins -o json | jq '.data | map_values(@base64d)'
 kubectl port-forward -n jenkins statefulset/jenkins 8080:8080
 ```
-- Configure jdk 21
+- Configure jdk 21 (Optional)
 
 # Sonar
 ```bash
