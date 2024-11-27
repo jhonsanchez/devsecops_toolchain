@@ -58,9 +58,6 @@ spec:
 
         }
         stage('Build') {
-            tools {
-                jdk "jdk21"
-            }
             steps {
                 script {
                     sh './gradlew clean build' //run a gradle task
@@ -68,9 +65,6 @@ spec:
             }
         }
         stage('Test') {
-            tools {
-                jdk "jdk21"
-            }
             steps {
                 script {
                     sh './gradlew test'
@@ -78,9 +72,6 @@ spec:
             }
         }
         stage("build & SonarQube analysis") {
-            tools {
-                jdk "jdk21"
-            }
             environment {
                 SONAR_HOST_URL = 'http://sonarqube-sonarqube.sonarqube:9000'
                 SONAR_TOKEN = credentials('sonarqube-token')
