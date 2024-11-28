@@ -10,11 +10,11 @@ spec:
     image: python
     resources:
       requests:
-        cpu: 2000m
-        memory: 4000Mi
+        cpu: 200m
+        memory: 1000Mi
       limits:
-        cpu: 4000m
-        memory: 10240Mi
+        cpu: 800m
+        memory: 4000Mi
     command:
     - cat
     tty: true
@@ -30,7 +30,7 @@ spec:
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/jhonsanchez/petclinic-bg-example.git'
+                git branch: 'test', url: 'https://github.com/jhonsanchez/petclinic-bg-example.git'
             }
         }
         stage('Detect secrets'){
