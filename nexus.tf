@@ -62,12 +62,12 @@ resource "kubernetes_deployment" "nexus" {
 
           resources {
             limits = {
-              memory = "6Gi"
-              cpu    = "1200m"
+              memory = "2Gi"
+              cpu    = "400m"
             }
             requests = {
-              memory = "4Gi"
-              cpu    = "800m"
+              memory = "2Gi"
+              cpu    = "400m"
             }
           }
 

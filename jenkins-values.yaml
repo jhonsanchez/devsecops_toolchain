@@ -10,8 +10,8 @@ controller:
 agent:
   resources:
     requests:
-      cpu: 1
-      memory: 2048Mi
+      cpu: 200
+      memory: 1024Mi
     limits:
-      cpu: 2
-      memory: 4096Mi
+      cpu: 400
+      memory: 1024Mi
